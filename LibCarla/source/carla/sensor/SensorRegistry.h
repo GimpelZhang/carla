@@ -19,6 +19,7 @@
 #include "carla/sensor/s11n/EpisodeStateSerializer.h"
 #include "carla/sensor/s11n/GnssSerializer.h"
 #include "carla/sensor/s11n/ImageSerializer.h"
+#include "carla/sensor/s11n/ImageSerializerCube.h"
 #include "carla/sensor/s11n/NormalsImageSerializer.h"
 #include "carla/sensor/s11n/OpticalFlowImageSerializer.h"
 #include "carla/sensor/s11n/IMUSerializer.h"
@@ -50,6 +51,7 @@ class ARssSensor;
 class FWorldObserver;
 struct FCameraGBufferUint8;
 struct FCameraGBufferFloat;
+class AFisheyeSensor;
 
 namespace carla {
 namespace sensor {
@@ -80,7 +82,8 @@ namespace sensor {
     std::pair<AInstanceSegmentationCamera *, s11n::ImageSerializer>,
     std::pair<FWorldObserver *, s11n::EpisodeStateSerializer>,
     std::pair<FCameraGBufferUint8 *, s11n::GBufferUint8Serializer>,
-    std::pair<FCameraGBufferFloat *, s11n::GBufferFloatSerializer>
+    std::pair<FCameraGBufferFloat *, s11n::GBufferFloatSerializer>,
+    std::pair<AFisheyeSensor *, s11n::ImageSerializerCube>
   >;
 
 } // namespace sensor
@@ -108,5 +111,6 @@ namespace sensor {
 #include "Carla/Sensor/SemanticSegmentationCamera.h"
 #include "Carla/Sensor/InstanceSegmentationCamera.h"
 #include "Carla/Sensor/WorldObserver.h"
+#include "Carla/Sensor/FisheyeSensor.h"
 
 #endif // LIBCARLA_SENSOR_REGISTRY_WITH_SENSOR_INCLUDES
