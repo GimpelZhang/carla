@@ -49,7 +49,7 @@ protected:
   void SimulateLidar(const float DeltaTime);
 
   /// Shoot a laser ray-trace, return whether the laser hit something.
-  bool ShootLaser(const float VerticalAngle, float HorizontalAngle, FHitResult &HitResult, FCollisionQueryParams& TraceParams) const;
+  bool ShootLaser(const float VerticalAngle, float HorizontalAngle, FHitResult &HitResult, FCollisionQueryParams& TraceParams, const float l_timestamp) const;
 
   /// Method that allow to preprocess if the rays will be traced.
   virtual void PreprocessRays(uint32_t Channels, uint32_t MaxPointsPerChannel);
@@ -70,11 +70,13 @@ protected:
   UPROPERTY(EditAnywhere)
   FLidarDescription Description;
 
-  TArray<float> LaserAngles;
+  std::vector<float> LaserAngles;
 
   std::vector<std::vector<FHitResult>> RecordedHits;
+  //修改
   std::vector<std::vector<bool>> RayPreprocessCondition;
   std::vector<uint32_t> PointsPerChannel;
+  uint32_t Points;
 
 private:
   FSemanticLidarData SemanticLidarData;

@@ -107,9 +107,16 @@ namespace data {
       return reinterpret_cast<const float &>(_header[Index::HorizontalAngle]);
     }
 
+    uint32_t GetidxPtsOneLaser() const {
+      return reinterpret_cast<const uint32_t &>(M1_header[0]);
+    }    
     void SetHorizontalAngle(float angle) {
       std::memcpy(&_header[Index::HorizontalAngle], &angle, sizeof(uint32_t));
     }
+
+    void SetidxPtsOneLaser(int idxPtsOneLaser) {
+      std::memcpy(&M1_header[0], &idxPtsOneLaser, sizeof(uint32_t));
+    }        
 
     uint32_t GetChannelCount() const {
       return _header[Index::ChannelCount];
@@ -118,10 +125,8 @@ namespace data {
     virtual void ResetMemory(std::vector<uint32_t> points_per_channel) {
       DEBUG_ASSERT(GetChannelCount() > points_per_channel.size());
       std::memset(_header.data() + Index::SIZE, 0, sizeof(uint32_t) * GetChannelCount());
-
-      uint32_t total_points = static_cast<uint32_t>(
+        uint32_t total_points = static_cast<uint32_t>(
           std::accumulate(points_per_channel.begin(), points_per_channel.end(), 0));
-
       _ser_points.clear();
       _ser_points.reserve(total_points);
     }
@@ -137,6 +142,7 @@ namespace data {
 
   protected:
     std::vector<uint32_t> _header;
+    std::vector<uint32_t> M1_header={0,0};
     uint32_t _max_channel_points;
 
   private:
@@ -145,7 +151,7 @@ namespace data {
   friend class s11n::SemanticLidarHeaderView;
   friend class s11n::SemanticLidarSerializer;
   friend class carla::ros2::ROS2;
-
+  
   };
 
 } // namespace s11n
