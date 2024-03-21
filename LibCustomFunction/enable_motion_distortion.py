@@ -54,7 +54,6 @@ class LidarMotonDistortion:
     def create_ply(self, point_cloud, filename):
         points = [(point_cloud[i, 0], point_cloud[i, 1], point_cloud[i, 2], point_cloud[i, 3]) for i in range(point_cloud.shape[0])]
         vertex = np.array(points, dtype=[('x', 'f4'),('y', 'f4'),('z', 'f4'), ('I', 'f4')])
-        print(vertex)
 
         e1 = PlyElement.describe(vertex, 'vertex')
 

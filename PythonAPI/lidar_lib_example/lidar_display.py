@@ -153,19 +153,20 @@ def main():
 
         horizon_bp.set_attribute("enable_ghost", "false") # set true or false to enable or disable the ghost mode. default false
 
-        # ego_horizon = world.spawn_actor(horizon_bp,lidar_transform,attach_to=ego_vehicle, attachment_type=carla.AttachmentType.Rigid)
+        ego_horizon = world.spawn_actor(horizon_bp,lidar_transform,attach_to=ego_vehicle, attachment_type=carla.AttachmentType.Rigid)
         # horizon_motion_distort = LidarMotonDistortion("./11_horizon/", 10) # initial LidarMotonDistortion with file_path and distortion delay_time
         # ego_horizon.listen(lambda data: horizon_motion_distort.enable_motion_distortion(data, True)) # set true to enable lidar motion distortion. default false
-        # lidar_list.append(ego_horizon)
+        lidar_list.append(ego_horizon)
 
-        ego_rs = world.spawn_actor(rs_m1_bp, lidar_transform, attach_to=ego_vehicle, attachment_type=carla.AttachmentType.Rigid)
-        lidar_list.append(ego_rs)
+        # ego_rs = world.spawn_actor(rs_m1_bp, lidar_transform, attach_to=ego_vehicle, attachment_type=carla.AttachmentType.Rigid)
+        # lidar_list.append(ego_rs)
 
         # 4. We set a point_list to store our point cloud
         point_list = o3d.geometry.PointCloud()
 
         # 5. Listen to the lidar to collect point cloud
-        ego_rs.listen(lambda data: lidar_callback(data, point_list))
+        # ego_rs.listen(lambda data: lidar_callback(data, point_list))
+        ego_horizon.listen(lambda data: lidar_callback(data, point_list))
 
         # 6. We set some basic settings for display with open3d
         vis = o3d.visualization.Visualizer()

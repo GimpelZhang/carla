@@ -6,7 +6,7 @@
 std::vector<std::vector<float>> Risley_prism_csv_reader(const std::string& lidar_name)
 {
 	//std::string lidar_name = my_livox.NAME;
-	std::string filename = "/home/carla/RisleyPrismCsv/"; //modify depend on your own carla path
+	std::string filename = "/home/junchuan/Downloads/junchuan/CARLA/carla/RisleyPrismCsv/"; //modify depend on your own carla path
 	if (lidar_name == "horizon")
 	{
 		filename += "horizon.csv";
