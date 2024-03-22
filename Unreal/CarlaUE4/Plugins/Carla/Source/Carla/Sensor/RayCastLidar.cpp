@@ -20,7 +20,12 @@
 #include "DrawDebugHelpers.h"
 #include "Engine/CollisionProfile.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
+#include "Carla/Sensor/Risley_prism.h"  //新增
+#include "Carla/Sensor/Solid_state.h" 
+#include "Carla/Sensor/Surround.h"
+#include "Carla/Sensor/noise.h"
 
+extern float noise1;
 FActorDefinition ARayCastLidar::GetSensorDefinition()
 {
   return UActorBlueprintFunctionLibrary::MakeLidarDefinition(TEXT("ray_cast"));
@@ -38,7 +43,37 @@ void ARayCastLidar::Set(const FActorDescription &ActorDescription)
 {
   ASensor::Set(ActorDescription);
   FLidarDescription LidarDescription;
-  UActorBlueprintFunctionLibrary::SetLidar(ActorDescription, LidarDescription);
+  UActorBlueprintFunctionLibrary::SetLidar(ActorDescription, LidarDescription); //从python接口获得并设置lidar属性
+
+  //若lidar_type == "default"， 则采用carla自带的lidar
+  std::string created_lidar_name = TCHAR_TO_UTF8(*LidarDescription.NAME);
+  std::string created_lidar_type = TCHAR_TO_UTF8(*LidarDescription.LidarType);
+
+  bool enable_ghost = LidarDescription.EnableGhost;
+
+  if (created_lidar_type == "Risley_prism")  //Risley_prism式初始化  
+  {
+    for (int i = 0; i < 10; ++i) std::cout<<"creating "<<created_lidar_name<<std::endl;
+	  LidarDescription = create_Risley_prism(created_lidar_name);
+    LidarDescription.Range=LidarDescription.Range*100;
+  }
+  else if (created_lidar_type == "Solid_state")  //Solid_state式初始化
+  {
+    for (int i = 0; i < 10; ++i) std::cout<<"creating "<<created_lidar_name<<std::endl;
+	  LidarDescription = create_Solid_state(created_lidar_name);
+    LidarDescription.Range=LidarDescription.Range*100;
+  }
+  else if (created_lidar_type == "Surround")  //机械式初始化
+  {
+    for (int i = 0; i < 10; ++i) std::cout<<"creating "<<created_lidar_name<<std::endl;
+	  LidarDescription = create_Surround(created_lidar_name);
+    LidarDescription.Range=LidarDescription.Range*100;
+  }
+
+  LidarDescription.EnableGhost = enable_ghost;
+  
+  // LidarDescription.NoiseStdDev=noise1;//增加噪声属性
+
   Set(LidarDescription);
 }
 
@@ -48,7 +83,7 @@ void ARayCastLidar::Set(const FLidarDescription &LidarDescription)
   LidarData = FLidarData(Description.Channels);
   CreateLasers();
   PointsPerChannel.resize(Description.Channels);
-
+  
   // Compute drop off model parameters
   DropOffBeta = 1.0f - Description.DropOffAtZeroIntensity;
   DropOffAlpha = Description.DropOffAtZeroIntensity / Description.DropOffIntensityLimit;
@@ -94,7 +129,6 @@ float ARayCastLidar::ComputeIntensity(const FSemanticDetection& RawDetection) co
 {
   const carla::geom::Location HitPoint = RawDetection.point;
   const float Distance = HitPoint.Length();
-
   const float AttenAtm = Description.AtmospAttenRate;
   const float AbsAtm = exp(-AttenAtm * Distance);
 
@@ -115,8 +149,10 @@ ARayCastLidar::FDetection ARayCastLidar::ComputeDetection(const FHitResult& HitI
   const float AbsAtm = exp(-AttenAtm * Distance);
 
   const float IntRec = AbsAtm;
-
+  
   Detection.intensity = IntRec;
+
+  Detection.livox_timestamp = HitInfo.Time;
 
   return Detection;
 }
@@ -147,20 +183,19 @@ ARayCastLidar::FDetection ARayCastLidar::ComputeDetection(const FHitResult& HitI
   }
 
   void ARayCastLidar::ComputeAndSaveDetections(const FTransform& SensorTransform) {
-    for (auto idxChannel = 0u; idxChannel < Description.Channels; ++idxChannel)
-      PointsPerChannel[idxChannel] = RecordedHits[idxChannel].size();
+      for (auto idxChannel = 0u; idxChannel < Description.Channels; ++idxChannel)
+        PointsPerChannel[idxChannel] = RecordedHits[idxChannel].size();
 
-    LidarData.ResetMemory(PointsPerChannel);
+      LidarData.ResetMemory(PointsPerChannel);
 
-    for (auto idxChannel = 0u; idxChannel < Description.Channels; ++idxChannel) {
-      for (auto& hit : RecordedHits[idxChannel]) {
-        FDetection Detection = ComputeDetection(hit, SensorTransform);
-        if (PostprocessDetection(Detection))
-          LidarData.WritePointSync(Detection);
-        else
-          PointsPerChannel[idxChannel]--;
+      for (auto idxChannel = 0u; idxChannel < Description.Channels; ++idxChannel) {
+        for (auto& hit : RecordedHits[idxChannel]) {
+          FDetection Detection = ComputeDetection(hit, SensorTransform);
+          if (PostprocessDetection(Detection))
+            LidarData.WritePointSync(Detection);
+          else
+            PointsPerChannel[idxChannel]--;
       }
     }
-
-    LidarData.WriteChannelCount(PointsPerChannel);
+      LidarData.WriteChannelCount(PointsPerChannel);
   }

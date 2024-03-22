@@ -603,6 +603,7 @@ void export_sensor_data() {
   class_<csd::LidarDetection>("LidarDetection")
     .def_readwrite("point", &csd::LidarDetection::point)
     .def_readwrite("intensity", &csd::LidarDetection::intensity)
+    .def_readwrite("livox_timestamp", &csd::LidarDetection::livox_timestamp)
     .def(self_ns::str(self_ns::self))
   ;
 
