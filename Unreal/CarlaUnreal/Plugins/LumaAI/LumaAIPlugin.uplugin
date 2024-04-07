@@ -1,0 +1,51 @@
+{
+	"FileVersion": 3,
+	"Version": 4,
+	"VersionName": "0.4.1",
+	"FriendlyName": "Luma AI Plugin",
+	"Description": "A plugin for rendering and interfacing with neural fields and interactive scenes from Luma AI.",
+	"Category": "Luma AI",
+	"CreatedBy": "Luma AI",
+	"CreatedByURL": "https://lumalabs.ai/",
+	"DocsURL": "https://lumalabs.ai/ue",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/66dd775fa3104ecfb3ae800b8963c8b9",
+	"SupportURL": "https://lumalabs.ai/ue",
+	"EngineVersion": "5.0.0",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": true,
+	"Installed": true,
+	"SupportedTargetPlatforms": [
+		"Win64",
+		"Mac",
+		"Linux"
+	],
+	"Modules": [
+		{
+			"Name": "LumaRuntime",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"PlatformAllowList": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
+		},
+		{
+			"Name": "LumaEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "Niagara",
+			"Enabled": true
+		}
+	]
+}

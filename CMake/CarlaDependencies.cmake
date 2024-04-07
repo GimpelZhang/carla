@@ -221,7 +221,8 @@ if (BUILD_OSM_WORLD_RENDERER)
   carla_dependency_add (
     lunasvg
     ${CARLA_LUNASVG_TAG}
-    https://github.com/sammycage/lunasvg/archive/refs/tags/${CARLA_LUNASVG_TAG}.zip
+    # https://github.com/sammycage/lunasvg/archive/refs/tags/${CARLA_LUNASVG_TAG}.zip
+    https://github.com/sammycage/lunasvg/archive/refs/tags/v2.3.9.zip
     https://github.com/sammycage/lunasvg.git
   )
 endif ()
@@ -232,7 +233,8 @@ if (BUILD_OSM_WORLD_RENDERER)
   carla_dependency_add (
     libosmscout
     ${CARLA_LIBOSMSCOUT_TAG}
-    https://github.com/Framstag/libosmscout/archive/refs/tags/${CARLA_LIBOSMSCOUT_TAG}.zip
+    # https://github.com/Framstag/libosmscout/archive/refs/tags/${CARLA_LIBOSMSCOUT_TAG}.zip
+    https://github.com/Framstag/libosmscout/archive/refs/tags/v2023.03.30.1.zip
     https://github.com/Framstag/libosmscout.git
   )
 endif ()

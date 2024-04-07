@@ -1,4 +1,4 @@
-launch PythonAPI LibCarla CarlaUnrealEditor CarlaUnrealEditor launch-only:
+launch PythonAPI LibCarla CarlaUnrealEditor launch-only:
 	@echo "MakeFile build is currently disabled."
 
 # include Util/BuildTools/Vars.mk
