@@ -53,6 +53,7 @@ namespace data {
     public:
       geom::Location point;
       float intensity;
+      float livox_timestamp;
 
       LidarDetection() :
           point(0.0f, 0.0f, 0.0f), intensity{0.0f} { }
@@ -92,7 +93,7 @@ namespace data {
           std::accumulate(points_per_channel.begin(), points_per_channel.end(), 0));
 
       _points.clear();
-      _points.reserve(total_points * 4);
+      _points.reserve(total_points * 5);
     }
 
     void WritePointSync(LidarDetection &detection) {
@@ -100,6 +101,7 @@ namespace data {
       _points.emplace_back(detection.point.y);
       _points.emplace_back(detection.point.z);
       _points.emplace_back(detection.intensity);
+      _points.emplace_back(detection.livox_timestamp);
     }
 
     virtual void WritePointSync(SemanticLidarDetection &detection) {

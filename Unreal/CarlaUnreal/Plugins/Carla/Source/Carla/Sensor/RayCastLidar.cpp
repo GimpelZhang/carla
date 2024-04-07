@@ -37,7 +37,6 @@ void ARayCastLidar::Set(const FActorDescription &ActorDescription)
 {
   ASensor::Set(ActorDescription);
   FLidarDescription LidarDescription;
-  UActorBlueprintFunctionLibrary::SetLidar(ActorDescription, LidarDescription);
   Set(LidarDescription);
 }
 
@@ -47,7 +46,6 @@ void ARayCastLidar::Set(const FLidarDescription &LidarDescription)
   LidarData = FLidarData(Description.Channels);
   CreateLasers();
   PointsPerChannel.resize(Description.Channels);
-
   // Compute drop off model parameters
   DropOffBeta = 1.0f - Description.DropOffAtZeroIntensity;
   DropOffAlpha = Description.DropOffAtZeroIntensity / Description.DropOffIntensityLimit;
@@ -93,7 +91,6 @@ float ARayCastLidar::ComputeIntensity(const FSemanticDetection& RawDetection) co
 {
   const carla::geom::Location HitPoint = RawDetection.point;
   const float Distance = HitPoint.Length();
-
   const float AttenAtm = Description.AtmospAttenRate;
   const float AbsAtm = exp(-AttenAtm * Distance);
 
@@ -115,7 +112,6 @@ ARayCastLidar::FDetection ARayCastLidar::ComputeDetection(const FHitResult& HitI
 
   const float IntRec = AbsAtm;
 
-  Detection.intensity = IntRec;
 
   return Detection;
 }
@@ -146,8 +142,6 @@ ARayCastLidar::FDetection ARayCastLidar::ComputeDetection(const FHitResult& HitI
   }
 
   void ARayCastLidar::ComputeAndSaveDetections(const FTransform& SensorTransform) {
-    for (auto idxChannel = 0u; idxChannel < Description.Channels; ++idxChannel)
-      PointsPerChannel[idxChannel] = RecordedHits[idxChannel].size();
 
     LidarData.ResetMemory(PointsPerChannel);
 #if WITH_EDITOR
@@ -174,8 +168,6 @@ ARayCastLidar::FDetection ARayCastLidar::ComputeDetection(const FHitResult& HitI
           PointsPerChannel[idxChannel]--;
       }
     }
-
-    LidarData.WriteChannelCount(PointsPerChannel);
   }
 
 void ARayCastLidar::PointCloudResetMemory()
