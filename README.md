@@ -1,3 +1,59 @@
+This repo contains three branches which implement three main kind of features:
+
+### 1. 3d_models:
+
+This branch implement the ue5 developement version of both CarlaUnreal and CARLA. At the same time, the Luma AI plugin is inserted in the CARLA, which makes the 3DGS/nerf models rendering possible inside the simulator while running. 
+
+The following links are the refs this repo use: 
+
+[CarlaUnreal/ue5-dev-carla](https://github.com/CarlaUnreal/UnrealEngine/tree/ue5-dev-carla)
+
+[CARLA/ue5-dev](https://github.com/carla-simulator/carla/tree/ue5-dev)
+
+[Luma AI plugin](https://lumalabs.ai/ue)
+
+Please be aware that the CARLA ue5 version is still in active developing, and the [CARLA/ue5-dev](https://github.com/carla-simulator/carla/tree/ue5-dev) branch this repo using is until April 7, 2024.
+
+#### Where has this been tested?
+
+  * **Platform(s):** ubuntu 22.04
+  * **Python version(s):** python 3.8.10
+  * **Unreal Engine version(s):** 5.3
+
+### 2. PCSim
+
+Thanks to the repo: [PCSim: LiDAR Point Cloud Simulation and Sensor Placement](https://github.com/PJLab-ADG/PCSim).
+
+This branch implements only the LiDARSimLib part of the original repo. 
+
+Paths in the following files should be changed: 
+
+LiDARSimLib/PythonAPI/lidar_lib_example/lidar_display.py
+
+LiDARSimLib/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Sensor/Risley_prism.cpp
+
+A visualization method has been added to the lidar_display.py for test convenience. 
+
+#### Where has this been tested?
+
+  * **Platform(s):**  ubuntu 20.04
+  * **Python version(s):** 3.8.10
+  * **Unreal Engine version(s):** 4.26
+
+### 3. fisheye
+
+Implementation of the CARLA PR [Fisheye sensor #3755](https://github.com/carla-simulator/carla/pull/3755) on the latest CARLA version 0.9.15
+
+Modifications were made on the Unreal Engine Patch from the PR since CARLA now uses UE 4.26 version. The codes are in the UE4_changed_files folder. 
+
+Some other changes were added on the CARLA side codes. 
+
+#### Where has this been tested?
+
+  * **Platform(s):** 20.04
+  * **Python version(s):** 3.8.10
+  * **Unreal Engine version(s):** 4.26
+
 CARLA Simulator
 ===============
 
