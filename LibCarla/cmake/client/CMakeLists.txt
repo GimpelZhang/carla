@@ -9,7 +9,7 @@ if (BUILD_RSS_VARIANT)
   set(ADRSS_INCLUDE_DIRS)
   set(ADRSS_LIBS)
 
-  find_package(spdlog CONFIG REQUIRED
+  find_package (spdlog CONFIG REQUIRED
     HINTS ${ADRSS_INSTALL_DIR}/spdlog/)
   get_target_property(spdlog_include_dirs spdlog::spdlog INTERFACE_INCLUDE_DIRECTORIES)
   get_target_property(spdlog_file spdlog::spdlog LOCATION)
@@ -20,6 +20,18 @@ if (BUILD_RSS_VARIANT)
   endforeach()
   install(FILES ${spdlog_file} DESTINATION lib)
   list(APPEND ADRSS_LIBS ${spdlog_file})
+
+  set(proj_include_dir ${ADRSS_INSTALL_DIR}/../../proj-install/include)
+  set(proj_lib ${ADRSS_INSTALL_DIR}/../../proj-install/lib/libproj.a)
+  install(DIRECTORY ${proj_include_dir} DESTINATION include/system)
+  list(APPEND ADRSS_INCLUDE_DIRS ${proj_include_dir})
+  install(FILES ${proj_lib} DESTINATION lib)
+  list(APPEND ADRSS_LIBS ${proj_lib})
+
+  # as long as the libosm2odr uses the same odrSprial interface it is enough to copy the built static library
+  set(odr_lib ${ADRSS_INSTALL_DIR}/../src/ad-rss-lib/dependencies/map/dependencies/odrSpiral/lib/libodrSpiral.a)
+  install(FILES ${odr_lib} DESTINATION lib)
+  list(APPEND ADRSS_LIBS ${odr_lib})
 
   foreach(ad_lib ad_physics ad_rss ad_map_access ad_map_opendrive_reader ad_rss_map_integration)
     set(${ad_lib}_file ${ADRSS_INSTALL_DIR}/${ad_lib}/lib/lib${ad_lib}.a)

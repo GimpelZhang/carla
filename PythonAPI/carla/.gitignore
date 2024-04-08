@@ -1,4 +1,5 @@
 *.egg-info
+pyproject.toml
 build
 dependencies
 dist
