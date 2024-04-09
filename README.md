@@ -2,6 +2,8 @@ This repo contains three branches which implement three main kind of features:
 
 ### 1. 3d_models:
 
+![fox_in_carla](https://github.com/GimpelZhang/carla/raw/master/Docs/img/fox_in_carla.png)
+
 This branch implement the ue5 developement version of both CarlaUnreal and CARLA. At the same time, the Luma AI plugin is inserted in the CARLA, which makes the 3DGS/nerf models rendering possible inside the simulator while running. 
 
 The following links are the refs this repo use: 
