@@ -42,6 +42,8 @@ A visualization method has been added to the lidar_display.py for test convenien
   * **Python version(s):** 3.8.10
   * **Unreal Engine version(s):** 4.26
 
+Code analysis and code for Unreal Engine 5.5 version of CARLA are in this link: [Carla传感器模型深度解析——激光雷达篇](https://mp.weixin.qq.com/s/tkZBPvjVzDltVGLpJZtRpg)
+
 ### 3. fisheye
 
 Implementation of the CARLA PR [Fisheye sensor #3755](https://github.com/carla-simulator/carla/pull/3755) on the latest CARLA version 0.9.15
@@ -55,6 +57,8 @@ Some other changes were added on the CARLA side codes.
   * **Platform(s):** 20.04
   * **Python version(s):** 3.8.10
   * **Unreal Engine version(s):** 4.26
+
+Code analysis and code for Unreal Engine 5.5 version of CARLA are in this link: [Carla传感器模型深度解析——鱼眼相机篇](https://mp.weixin.qq.com/s/7wIy_YA-gTdNNeITX_bK-g)
 
 CARLA Simulator
 ===============
